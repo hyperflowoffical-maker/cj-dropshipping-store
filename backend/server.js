@@ -82,11 +82,9 @@ async function makeCJRequest(endpoint, params = {}) {
         console.log(`🔍 Making CJ API request: ${endpoint}`);
         console.log(`📋 Parameters:`, params);
 
-        const response = await axios.post(url, params, {
-            headers: {
-                ...headers,
-                'Content-Type': 'application/json'
-            },
+        const response = await axios.get(url, {
+            headers,
+            params,
             timeout: 30000 // 30 seconds timeout
         });
 
@@ -211,7 +209,7 @@ app.get('/api/search', async (req, res) => {
         // Make CJ API request
         const cjResponse = await makeCJRequest('/product/list', {
             productName: keyword,
-            pageNum: parseInt(page),
+            pageNum: parseInt(page) - 1, // CJ API uses 0-based indexing
             pageSize: parseInt(count)
         });
 

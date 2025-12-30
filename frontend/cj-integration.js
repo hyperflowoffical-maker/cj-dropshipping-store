@@ -7,7 +7,7 @@
 class CJDropshipping {
     constructor(options = {}) {
         this.apiBase = options.apiBase || 'https://cj-dropshipping-store.vercel.app/api';
-        this.demoMode = options.demoMode !== undefined ? options.demoMode : true;
+        this.demoMode = options.demoMode !== undefined ? options.demoMode : false;
         this.autoFallback = options.autoFallback !== undefined ? options.autoFallback : true;
         this.cache = new Map();
         this.cacheDuration = 5 * 60 * 1000; // 5 minutes
