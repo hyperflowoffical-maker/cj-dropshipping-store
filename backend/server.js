@@ -82,9 +82,11 @@ async function makeCJRequest(endpoint, params = {}) {
         console.log(`🔍 Making CJ API request: ${endpoint}`);
         console.log(`📋 Parameters:`, params);
 
-        const response = await axios.get(url, {
-            headers,
-            params,
+        const response = await axios.post(url, params, {
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
             timeout: 30000 // 30 seconds timeout
         });
 
