@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CJ Integration Test - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .neon-accent {
+            color: #00ffff;
+        }
+        .neon-border {
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 neon-accent">CJ Dropshipping Integration Test</h1>
+        
+        <!-- API Status -->
+        <div class="bg-gray-900 rounded-lg p-6 mb-8 border border-gray-800">
+            <h2 class="text-2xl font-semibold mb-4">API Connection Status</h2>
+            <div id="api-status" class="text-gray-400">Checking...</div>
+        </div>
+        
+        <!-- Product Test -->
+        <div class="bg-gray-900 rounded-lg p-6 mb-8 border border-gray-800">
+            <h2 class="text-2xl font-semibold mb-4">Product Search Test</h2>
+            <button onclick="testProductSearch()" class="px-4 py-2 bg-cyan-400 text-black rounded hover:bg-cyan-300 transition-colors">
+                Test Product Search
+            </button>
+            <div id="product-results" class="mt-4"></div>
+        </div>
+        
+        <!-- Order Test -->
+        <div class="bg-gray-900 rounded-lg p-6 mb-8 border border-gray-800">
+            <h2 class="text-2xl font-semibold mb-4">Order Creation Test</h2>
+            <button onclick="testOrderCreation()" class="px-4 py-2 bg-cyan-400 text-black rounded hover:bg-cyan-300 transition-colors">
+                Test Order Creation
+            </button>
+            <div id="order-results" class="mt-4"></div>
+        </div>
+        
+        <!-- Live Store Link -->
+        <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <h2 class="text-2xl font-semibold mb-4">Ready to Launch!</h2>
+            <p class="text-gray-400 mb-4">Your CJ Dropshipping store is fully integrated and ready for business.</p>
+            <a href="index.html" class="inline-block px-6 py-3 bg-cyan-400 text-black font-semibold rounded hover:bg-cyan-300 transition-colors neon-border">
+                Visit Your Store →
+            </a>
+        </div>
+    </div>
+
+    <script src="cj-integration-demo.js"></script>
+    <script>
+        async function testAPIStatus() {
+            const statusDiv = document.getElementById('api-status');
+            
+            try {
+                const status = await cj.checkApiStatus();
+                
+                if (status.connected) {
+                    statusDiv.innerHTML = `
+                        <div class="text-green-400">
+                            ✅ Connected to CJ Dropshipping API<br>
+                            Token Status: ${status.hasToken ? 'Valid' : 'Expired'}<br>
+                            Days Remaining: ${status.daysRemaining || 'N/A'}
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="text-red-400">
+                            ❌ Failed to connect to CJ API<br>
+                            Error: ${status.error || 'Unknown error'}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="text-red-400">
+                        ❌ API Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        async function testProductSearch() {
+            const resultsDiv = document.getElementById('product-results');
+            resultsDiv.innerHTML = '<div class="text-gray-400">Searching for products...</div>';
+            
+            try {
+                const products = await cj.searchProducts('sneakers', 5);
+                
+                if (products.length > 0) {
+                    resultsDiv.innerHTML = `
+                        <div class="text-green-400 mb-4">✅ Found ${products.length} products</div>
+                        <div class="space-y-4">
+                            ${products.map(product => `
+                                <div class="bg-gray-800 p-4 rounded border border-gray-700">
+                                    <h3 class="font-semibold">${product.name}</h3>
+                                    <p class="text-cyan-400">${product.price}</p>
+                                    <p class="text-gray-400 text-sm">Stock: ${product.stock} | Category: ${product.category}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = '<div class="text-yellow-400">⚠️ No products found</div>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-400">❌ Search Failed: ${error.message}</div>`;
+            }
+        }
+        
+        async function testOrderCreation() {
+            const resultsDiv = document.getElementById('order-results');
+            resultsDiv.innerHTML = '<div class="text-gray-400">Creating test order...</div>';
+            
+            try {
+                const testOrder = {
+                    items: [{
+                        productId: 'test_123',
+                        name: 'Test Sneakers',
+                        quantity: 1,
+                        price: '$99.99',
+                        size: 'L',
+                        color: 'black'
+                    }],
+                    shippingAddress: {
+                        firstName: 'Test',
+                        lastName: 'Customer',
+                        email: 'test@example.com',
+                        phone: '+1234567890',
+                        address: '123 Test Street',
+                        city: 'Test City',
+                        state: 'TS',
+                        zip: '12345',
+                        country: 'US'
+                    },
+                    shippingMethod: 'standard',
+                    subtotal: 99.99,
+                    shippingCost: 0,
+                    tax: 7.99,
+                    total: 107.98
+                };
+                
+                const result = await cj.createOrder(testOrder);
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="text-green-400">
+                            ✅ Order Created Successfully!<br>
+                            Order ID: ${result.orderId}<br>
+                            Message: ${result.message}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<div class="text-red-400">❌ Order Failed: ${result.error}</div>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-400">❌ Order Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Run API status test on page load
+        document.addEventListener('DOMContentLoaded', testAPIStatus);
+    </script>
+</body>
+</html>

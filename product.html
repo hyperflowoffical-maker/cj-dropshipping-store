@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPERFLOW - Product Details</title>
+    <meta name="description" content="Premium streetwear and sneakers from HYPERFLOW. Real products from CJ Dropshipping.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .neon-accent { color: #00ffff; }
+        .skeleton { background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .image-zoom { cursor: zoom-in; }
+        .review-card { transition: all 0.3s ease; }
+        .review-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Navigation -->
+    <div id="header-container"></div>
+    
+    <!-- Breadcrumbs -->
+    <div class="bg-gray-900 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center space-x-2 text-sm">
+                <a href="index.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Home</a>
+                <span class="text-gray-600">/</span>
+                <a href="shop.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Shop</a>
+                <span class="text-gray-600">/</span>
+                <span id="breadcrumb-category" class="text-cyan-400">Product</span>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Product Details -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Product Images -->
+                <div class="space-y-4">
+                    <div class="relative">
+                        <img id="main-image" src="" alt="" class="w-full h-96 object-cover rounded-lg image-zoom" onclick="openImageModal(this.src)">
+                        <div id="image-loading" class="absolute inset-0 bg-gray-900 rounded-lg flex items-center justify-center">
+                            <div class="skeleton w-full h-full rounded-lg"></div>
+                        </div>
+                    </div>
+                    <!-- Thumbnail Gallery -->
+                    <div id="thumbnail-gallery" class="grid grid-cols-4 gap-2">
+                        <!-- Thumbnails will be loaded dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Product Info -->
+                <div>
+                    <div id="product-breadcrumb" class="mb-4">
+                        <span class="text-gray-400">Category:</span>
+                        <span id="product-category" class="text-cyan-400 font-semibold"></span>
+                    </div>
+                    
+                    <h1 id="product-title" class="font-display text-3xl md:text-4xl font-bold mb-4"></h1>
+                    
+                    <!-- Rating -->
+                    <div class="flex items-center mb-6">
+                        <div id="product-rating" class="flex items-center mr-3"></div>
+                        <span id="review-count" class="text-gray-400"></span>
+                    </div>
+                    
+                    <div class="flex items-center mb-6">
+                        <span id="product-price" class="text-4xl font-bold neon-accent mr-3"></span>
+                        <span id="product-original-price" class="text-xl text-gray-500 line-through"></span>
+                    </div>
+                    
+                    <!-- Stock Info -->
+                    <div id="stock-info" class="mb-6"></div>
+                    
+                    <!-- Size/Color Selection -->
+                    <div id="product-variants" class="mb-6">
+                        <!-- Variants will be loaded dynamically -->
+                    </div>
+                    
+                    <!-- Quantity -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium mb-2">Quantity</label>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="decreaseQuantity()" class="w-10 h-10 bg-gray-800 border border-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                            </button>
+                            <input type="number" id="quantity" value="1" min="1" max="10" class="w-20 px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-center focus:outline-none focus:border-cyan-400 transition-colors">
+                            <button onclick="increaseQuantity()" class="w-10 h-10 bg-gray-800 border border-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4 mb-8">
+                        <button onclick="addToCart()" class="flex-1 py-4 bg-cyan-400 text-black font-bold hover:bg-cyan-300 transition-colors rounded-lg">
+                            Add to Cart
+                        </button>
+                        <button onclick="buyNow()" class="flex-1 py-4 border-2 border-cyan-400 text-cyan-400 font-bold hover:bg-cyan-400 hover:text-black transition-colors rounded-lg">
+                            Buy Now
+                        </button>
+                    </div>
+                    
+                    <!-- Trust Badges -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center text-sm text-gray-400">
+                            <svg class="w-5 h-5 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Authentic Products
+                        </div>
+                        <div class="flex items-center text-sm text-gray-400">
+                            <svg class="w-5 h-5 mr-2 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-8a1 1 0 00-1-1h-3z"/>
+                            </svg>
+                            Free Shipping
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Product Tabs -->
+    <section class="py-12 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-900 rounded-lg border border-gray-800">
+                <!-- Tab Headers -->
+                <div class="flex border-b border-gray-800">
+                    <button onclick="showTab('description')" class="tab-btn px-6 py-4 font-semibold text-cyan-400 border-b-2 border-cyan-400" data-tab="description">
+                        Description
+                    </button>
+                    <button onclick="showTab('shipping')" class="tab-btn px-6 py-4 font-semibold text-gray-400 hover:text-cyan-400 transition-colors" data-tab="shipping">
+                        Shipping & Returns
+                    </button>
+                    <button onclick="showTab('reviews')" class="tab-btn px-6 py-4 font-semibold text-gray-400 hover:text-cyan-400 transition-colors" data-tab="reviews">
+                        Reviews
+                    </button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="p-8">
+                    <!-- Description Tab -->
+                    <div id="description-tab" class="tab-content">
+                        <h3 class="text-xl font-semibold mb-4">Product Details</h3>
+                        <p id="product-description" class="text-gray-300 leading-relaxed"></p>
+                    </div>
+                    
+                    <!-- Shipping Tab -->
+                    <div id="shipping-tab" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold mb-4">Shipping & Returns</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <p><strong>Shipping:</strong> Free shipping on orders over $50. Standard shipping: 7-14 business days. Express shipping available.</p>
+                            <p><strong>Returns:</strong> 30-day return policy. Items must be unworn and in original packaging.</p>
+                            <p><strong>Tracking:</strong> All orders include tracking information sent via email.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Tab -->
+                    <div id="reviews-tab" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold mb-6">Customer Reviews</h3>
+                        
+                        <!-- Review Summary -->
+                        <div class="bg-gray-800 rounded-lg p-6 mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="text-center">
+                                    <div class="text-5xl font-bold neon-accent mb-2">4.3</div>
+                                    <div class="flex justify-center mb-2">
+                                        ${generateStars(4.3)}
+                                    </div>
+                                    <p class="text-gray-400">Based on 127 reviews</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="w-12 text-sm">5 stars</span>
+                                        <div class="flex-1 mx-4 bg-gray-700 rounded-full h-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-400">57</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-12 text-sm">4 stars</span>
+                                        <div class="flex-1 mx-4 bg-gray-700 rounded-full h-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 30%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-400">38</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Individual Reviews -->
+                        <div id="reviews-container" class="space-y-6">
+                            <!-- Reviews will be loaded dynamically -->
+                        </div>
+                        
+                        <!-- Write Review Button -->
+                        <div class="text-center mt-8">
+                            <button onclick="openReviewModal()" class="px-6 py-3 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                                Write a Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Related Products -->
+    <section class="py-12 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-3xl font-bold mb-8">You May Also Like</h2>
+            <div id="related-products-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Related products will be loaded dynamically -->
+                <div class="col-span-full text-center py-12">
+                    <div class="skeleton h-48 rounded-lg"></div>
+                    <p class="text-gray-400 mt-4">Loading related products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center" onclick="closeImageModal()">
+        <div class="max-w-4xl max-h-screen p-4">
+            <img id="modal-image" src="" alt="" class="max-w-full max-h-full object-contain">
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="cart.js"></script>
+    <script src="cj-integration-demo.js"></script>
+    <script>
+        // Global variables
+        let currentProduct = null;
+        let relatedProducts = [];
+        let selectedVariant = null;
+        let selectedQuantity = 1;
+        
+        // Sample reviews
+        const sampleReviews = [
+            { name: "Alex Johnson", rating: 5, date: "2024-01-15", verified: true, title: "Absolutely love these!", text: "Perfect fit and amazing quality. The shipping was faster than expected and product looks exactly like photos. Highly recommend!" },
+            { name: "Sarah Chen", rating: 4, date: "2024-01-12", verified: true, title: "Great sneakers, minor issue", text: "Love design and comfort. Only reason for 4 stars is that they run slightly small, so I'd recommend ordering a size up." },
+            { name: "Mike Rodriguez", rating: 5, date: "2024-01-10", verified: true, title: "Best purchase this year", text: "These are exactly what I was looking for. Great quality, stylish, and comfortable. Will definitely buy again!" }
+        ];
+        
+        // Load components
+        async function loadComponents() {
+            const navResponse = await fetch('components/header.html');
+            document.getElementById('header-container').innerHTML = await navResponse.text();
+            
+            const footerResponse = await fetch('components/footer.html');
+            document.getElementById('footer-container').innerHTML = await footerResponse.text();
+        }
+        
+        // Load product from CJ API
+        async function loadProduct() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                showError('No product ID specified');
+                return;
+            }
+            
+            try {
+                currentProduct = await cj.getProduct(productId);
+                
+                if (!currentProduct) {
+                    showError('Product not found');
+                    return;
+                }
+                
+                // Update product details
+                document.getElementById('product-title').textContent = currentProduct.name;
+                document.getElementById('product-price').textContent = currentProduct.price;
+                document.getElementById('product-original-price').textContent = currentProduct.originalPrice || '';
+                document.getElementById('product-description').textContent = currentProduct.description;
+                document.getElementById('product-category').textContent = currentProduct.category;
+                document.getElementById('breadcrumb-category').textContent = currentProduct.category;
+                
+                // Update main image
+                const mainImage = document.getElementById('main-image');
+                mainImage.src = currentProduct.image;
+                mainImage.alt = currentProduct.name;
+                document.getElementById('image-loading').classList.add('hidden');
+                
+                // Update stock info
+                const stockElement = document.getElementById('stock-info');
+                if (currentProduct.stock <= 5) {
+                    stockElement.innerHTML = `<span class="text-red-400 font-semibold">Only ${currentProduct.stock} left in stock!</span>`;
+                } else {
+                    stockElement.innerHTML = `<span class="text-green-400 font-semibold">In Stock (${currentProduct.stock} available)</span>`;
+                }
+                
+                // Update rating
+                document.getElementById('product-rating').innerHTML = generateStars(Math.random() * 2 + 3);
+                document.getElementById('review-count').textContent = `(${Math.floor(Math.random() * 50 + 10)} reviews)`;
+                
+                // Load variants
+                loadVariants();
+                
+                // Load related products and reviews
+                await loadRelatedProducts();
+                loadReviews();
+                
+            } catch (error) {
+                console.error('Failed to load product:', error);
+                showError('Failed to load product. Please try again.');
+            }
+        }
+        
+        // Load product variants
+        function loadVariants() {
+            const variantsContainer = document.getElementById('product-variants');
+            const thumbnailGallery = document.getElementById('thumbnail-gallery');
+            
+            if (currentProduct.variants && currentProduct.variants.length > 0) {
+                // Load thumbnails
+                const allImages = [currentProduct.image, ...currentProduct.variants.map(v => v.image)];
+                thumbnailGallery.innerHTML = allImages.slice(0, 5).map((img, index) => `
+                    <img src="${img}" alt="Product image ${index + 1}" 
+                         class="w-full h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity" 
+                         onclick="changeMainImage('${img}')">
+                `).join('');
+                
+                // Load size/color options
+                variantsContainer.innerHTML = `
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Size</label>
+                        <div class="flex flex-wrap gap-2">
+                            ${['XS', 'S', 'M', 'L', 'XL'].map(size => `
+                                <button onclick="selectSize('${size}')" class="size-btn px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg hover:border-cyan-400 transition-colors">
+                                    ${size}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Color</label>
+                        <div class="flex flex-wrap gap-2">
+                            ${['Black', 'White', 'Gray', 'Navy'].map(color => `
+                                <button onclick="selectColor('${color}')" class="color-btn px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg hover:border-cyan-400 transition-colors">
+                                    ${color}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load related products
+        async function loadRelatedProducts() {
+            try {
+                const allProducts = await cj.searchProducts(currentProduct.category || 'sneakers', 20);
+                relatedProducts = allProducts.filter(p => p.id !== currentProduct.id).slice(0, 6);
+                displayRelatedProducts();
+            } catch (error) {
+                console.error('Failed to load related products:', error);
+            }
+        }
+        
+        // Display related products
+        function displayRelatedProducts() {
+            const grid = document.getElementById('related-products-grid');
+            
+            if (relatedProducts.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-400">No related products found.</p></div>';
+                return;
+            }
+            
+            grid.innerHTML = relatedProducts.map(product => `
+                <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-cyan-400 transition-all duration-300">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.src='https://via.placeholder.com/300x300/333/fff?text=No+Image'">
+                        ${product.stock <= 5 ? `<div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded">Low Stock</div>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2 line-clamp-2">${product.name}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-bold">${product.price}</span>
+                            <a href="product.html?id=${product.id}" class="text-cyan-400 hover:text-cyan-300 text-sm transition-colors">View →</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load reviews
+        function loadReviews() {
+            const container = document.getElementById('reviews-container');
+            
+            // Try to load saved reviews first
+            const savedReviews = JSON.parse(localStorage.getItem(`reviews_${currentProduct?.id || 'default'}`) || '[]');
+            
+            let reviews = savedReviews;
+            
+            // If no saved reviews, use sample reviews
+            if (reviews.length === 0) {
+                reviews = [
+                    { name: "Alex Johnson", rating: 5, date: "2024-01-15", verified: true, title: "Absolutely love these!", text: "Perfect fit and amazing quality. The shipping was faster than expected and product looks exactly like photos. Highly recommend!" },
+                    { name: "Sarah Chen", rating: 4, date: "2024-01-12", verified: true, title: "Great sneakers, minor issue", text: "Love design and comfort. Only reason for 4 stars is that they run slightly small, so I'd recommend ordering a size up." },
+                    { name: "Mike Rodriguez", rating: 5, date: "2024-01-10", verified: true, title: "Best purchase this year", text: "These are exactly what I was looking for. Great quality, stylish, and comfortable. Will definitely buy again!" }
+                ];
+            }
+            
+            container.innerHTML = reviews.map(review => `
+                <div class="review-card bg-gray-800 rounded-lg p-6 border border-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <h4 class="font-semibold mr-3">${review.name}</h4>
+                                ${review.verified ? '<span class="bg-cyan-400/20 text-cyan-400 text-xs px-2 py-1 rounded">Verified Purchase</span>' : ''}
+                            </div>
+                            <div class="flex items-center mb-2">
+                                ${generateStars(review.rating)}
+                                <span class="text-gray-400 text-sm ml-2">${formatDate(review.date)}</span>
+                            </div>
+                            <h5 class="font-medium mb-2">${review.title}</h5>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">${review.text}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Utility functions
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                stars += i < fullStars ? '<span class="text-yellow-400">★</span>' : '<span class="text-gray-600">★</span>';
+            }
+            return stars;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        
+        function changeMainImage(src) {
+            document.getElementById('main-image').src = src;
+        }
+        
+        function openImageModal(src) {
+            document.getElementById('modal-image').src = src;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+        
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-cyan-400', 'border-b-2', 'border-cyan-400');
+                btn.classList.add('text-gray-400');
+            });
+            
+            // Show selected tab
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('text-cyan-400', 'border-b-2', 'border-cyan-400');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('text-gray-400');
+        }
+        
+        function selectSize(size) {
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('border-cyan-400', 'text-cyan-400');
+                btn.classList.add('border-gray-700');
+            });
+            event.target.classList.add('border-cyan-400', 'text-cyan-400');
+            event.target.classList.remove('border-gray-700');
+        }
+        
+        function selectColor(color) {
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('border-cyan-400');
+                btn.classList.add('border-gray-700');
+            });
+            event.target.classList.add('border-cyan-400');
+            event.target.classList.remove('border-gray-700');
+        }
+        
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+            if (input.value < 10) {
+                input.value = parseInt(input.value) + 1;
+            }
+        }
+        
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+            if (input.value > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+        
+        function addToCart() {
+            if (!window.cart || !currentProduct) return;
+            
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            
+            window.cart.addItem({
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: currentProduct.price,
+                image: currentProduct.image,
+                size: 'L',
+                color: 'black',
+                quantity: quantity
+            });
+            
+            showNotification('Product added to cart!', 'success');
+        }
+        
+        function buyNow() {
+            addToCart();
+            setTimeout(() => window.location.href = 'checkout.html', 500);
+        }
+        
+        function openReviewModal() {
+            // Create review modal HTML
+            const modalHtml = `
+                <div id="review-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+                    <div class="bg-gray-900 rounded-lg p-6 max-w-md w-full mx-4 border border-gray-800">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-white">Write a Review</h3>
+                            <button onclick="closeReviewModal()" class="text-gray-400 hover:text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="submitReview(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Your Name</label>
+                                <input type="text" required class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" placeholder="John Doe">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Rating</label>
+                                <div class="flex space-x-2">
+                                    ${[1,2,3,4,5].map(star => `
+                                        <button type="button" onclick="setRating(${star})" class="rating-star text-2xl text-gray-600 hover:text-yellow-400 transition-colors" data-rating="${star}">
+                                            ★
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Review Title</label>
+                                <input type="text" required class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" placeholder="Great product!">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Your Review</label>
+                                <textarea required rows="4" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" placeholder="Share your experience with this product..."></textarea>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button type="button" onclick="closeReviewModal()" class="flex-1 px-4 py-2 bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors rounded-lg">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="flex-1 px-4 py-2 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            // Add modal to page
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function closeReviewModal() {
+            const modal = document.getElementById('review-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        let selectedRating = 0;
+        
+        function setRating(rating) {
+            selectedRating = rating;
+            document.querySelectorAll('.rating-star').forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('text-gray-600');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-gray-600');
+                }
+            });
+        }
+        
+        function submitReview(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const review = {
+                name: formData.get('name') || 'Anonymous',
+                rating: selectedRating,
+                title: formData.get('title'),
+                text: formData.get('text'),
+                date: new Date().toISOString().split('T')[0],
+                verified: false
+            };
+            
+            // Save to localStorage
+            const reviews = JSON.parse(localStorage.getItem(`reviews_${currentProduct?.id || 'default'}`) || '[]');
+            reviews.push(review);
+            localStorage.setItem(`reviews_${currentProduct?.id || 'default'}`, JSON.stringify(reviews));
+            
+            // Show success message
+            showNotification('Thank you for your review!', 'success');
+            
+            // Close modal and reset form
+            closeReviewModal();
+            event.target.reset();
+            selectedRating = 0;
+            
+            // Reload reviews to show new one
+            loadReviews();
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-600 text-white' : 'bg-cyan-600 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.classList.remove('translate-x-full'), 100);
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        function showError(message) {
+            document.querySelector('main').innerHTML = `
+                <div class="text-center py-20">
+                    <h1 class="text-3xl font-bold text-red-400 mb-4">Error</h1>
+                    <p class="text-gray-400">${message}</p>
+                    <a href="index.html" class="inline-block mt-6 px-6 py-3 bg-cyan-400 text-black font-semibold rounded hover:bg-cyan-300 transition-colors">
+                        Back to Products
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadComponents();
+            await loadProduct();
+        });
+    </script>
+</body>
+</html>

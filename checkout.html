@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - HYPERFLOW</title>
+    <!-- Tailwind CSS - Replace CDN with compiled CSS for production -->
+    <!-- To build: npm install && npm run build-css -->
+    <!-- Then replace this line with: <link rel="stylesheet" href="dist/output.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .neon-glow {
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
+                         0 0 20px rgba(0, 255, 255, 0.3),
+                         0 0 30px rgba(0, 255, 255, 0.2);
+        }
+        .neon-border {
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3),
+                        0 0 20px rgba(0, 255, 255, 0.2),
+                        inset 0 0 10px rgba(0, 255, 255, 0.1);
+        }
+        .neon-accent {
+            color: #00ffff;
+        }
+        .chat-bubble {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(0, 255, 255, 0);
+            }
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+        }
+        .error-border {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+        }
+    </style>
+    <!-- Tidio Chat Integration - Load in head for better performance -->
+    <script src="//code.tidio.co/zf6aqqjnzqwsjutwooabdlp3wltpxpuw.js" async></script>
+</head>
+<script src="src/cj-api-browser.js"></script>
+    <script>
+        const cjAPI = new CJDropshippingAPI('CJ5028846@api@5ecb733ea3914bcf851dbd88c855627c');
+        
+        async function loadSneakers() {
+            const products = await cjAPI.getStoreProducts('sneakers', 10);
+            console.log(products);
+        }
+        
+        loadSneakers();
+    </script>
+<body class="bg-black text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="border-b border-gray-800 sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="font-display text-2xl font-bold neon-accent">HYPERFLOW</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-cyan-400 transition-colors">Home</a>
+                        <a href="index.html#products" class="text-white hover:text-cyan-400 transition-colors">Products</a>
+                        <a href="#" class="text-white hover:text-cyan-400 transition-colors">About</a>
+                        <a href="#" class="text-white hover:text-cyan-400 transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="cart.html" class="relative">
+                        <svg class="w-6 h-6 text-white hover:text-cyan-400 cursor-pointer transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="font-display text-4xl md:text-5xl font-bold mb-8">Checkout</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Billing Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-gray-900 rounded-lg border border-gray-800 p-6 mb-6">
+                    <h2 class="font-display text-2xl font-semibold mb-6">Billing Information</h2>
+                    
+                    <form id="checkout-form" class="space-y-6">
+                        <!-- Personal Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium mb-2">First Name *</label>
+                                <input type="text" id="first-name" name="first-name" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                <p id="first-name-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium mb-2">Last Name *</label>
+                                <input type="text" id="last-name" name="last-name" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                <p id="last-name-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email Address *</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                            <p id="email-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required
+                                class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                            <p id="phone-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                        </div>
+
+                        <!-- Shipping Address -->
+                        <div class="border-t border-gray-800 pt-6">
+                            <h3 class="font-semibold text-lg mb-4">Shipping Address</h3>
+                            
+                            <div>
+                                <label for="address" class="block text-sm font-medium mb-2">Street Address *</label>
+                                <input type="text" id="address" name="address" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                <p id="address-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                <div>
+                                    <label for="city" class="block text-sm font-medium mb-2">City *</label>
+                                    <input type="text" id="city" name="city" required
+                                        class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                    <p id="city-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                                </div>
+                                <div>
+                                    <label for="state" class="block text-sm font-medium mb-2">State/Province *</label>
+                                    <input type="text" id="state" name="state" required
+                                        class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                    <p id="state-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                                </div>
+                                <div>
+                                    <label for="zip" class="block text-sm font-medium mb-2">ZIP/Postal Code *</label>
+                                    <input type="text" id="zip" name="zip" required
+                                        class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                    <p id="zip-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <label for="country" class="block text-sm font-medium mb-2">Country *</label>
+                                <select id="country" name="country" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="CH">Switzerland</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="NO">Norway</option>
+                                    <option value="DK">Denmark</option>
+                                    <option value="FI">Finland</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="CZ">Czech Republic</option>
+                                    <option value="IE">Ireland</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="GR">Greece</option>
+                                </select>
+                                <p id="country-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="border-t border-gray-800 pt-6">
+                            <h3 class="font-semibold text-lg mb-4">Shipping Method</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-4 border border-gray-700 rounded-lg cursor-pointer hover:border-cyan-400 transition-colors">
+                                    <input type="radio" name="shipping" value="standard" class="mr-3" checked>
+                                    <div class="flex-1">
+                                        <div class="font-semibold">Standard Shipping</div>
+                                        <div class="text-sm text-gray-400">7-14 business days - Free</div>
+                                    </div>
+                                    <span class="text-cyan-400 font-semibold">FREE</span>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-700 rounded-lg cursor-pointer hover:border-cyan-400 transition-colors">
+                                    <input type="radio" name="shipping" value="express" class="mr-3">
+                                    <div class="flex-1">
+                                        <div class="font-semibold">Express Shipping</div>
+                                        <div class="text-sm text-gray-400">3-5 business days</div>
+                                    </div>
+                                    <span class="text-cyan-400 font-semibold">$19.99</span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="bg-gray-900 rounded-lg border border-gray-800 p-6">
+                    <h2 class="font-display text-2xl font-semibold mb-6">Payment Method</h2>
+                    
+                    <!-- Credit Card Form -->
+                    <div class="space-y-6">
+                        <div>
+                            <label for="card-number" class="block text-sm font-medium mb-2">Card Number *</label>
+                            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required
+                                class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors"
+                                oninput="formatCardNumber(this)">
+                            <p id="card-number-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label for="card-expiry" class="block text-sm font-medium mb-2">Expiry Date *</label>
+                                <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY" maxlength="5" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors"
+                                    oninput="formatExpiry(this)">
+                                <p id="card-expiry-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+                            <div>
+                                <label for="card-cvv" class="block text-sm font-medium mb-2">CVV *</label>
+                                <input type="text" id="card-cvv" name="card-cvv" placeholder="123" maxlength="4" required
+                                    class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                <p id="card-cvv-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="card-name" class="block text-sm font-medium mb-2">Name on Card *</label>
+                            <input type="text" id="card-name" name="card-name" placeholder="John Doe" required
+                                class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:outline-none focus:border-cyan-400 transition-colors">
+                            <p id="card-name-error" class="mt-1 text-sm text-red-500 hidden"></p>
+                        </div>
+
+                        <!-- Security Notice -->
+                        <div class="flex items-start gap-3 p-4 bg-gray-800 rounded-lg border border-gray-700">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <p class="text-sm text-gray-400">This is a mock checkout for testing purposes. No payment will be processed.</p>
+                        </div>
+
+                        <!-- Complete Purchase Button -->
+                        <button type="button" id="complete-purchase-btn" onclick="processOrder()"
+                            class="w-full py-4 bg-cyan-400 text-black font-bold text-lg hover:bg-cyan-300 transition-colors rounded-lg neon-border">
+                            Complete Purchase
+                        </button>
+
+                        <!-- Processing Overlay -->
+                        <div id="processing-overlay" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+                            <div class="bg-gray-900 rounded-lg border border-cyan-400 p-8 max-w-md mx-4 text-center">
+                                <div class="mb-4">
+                                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-cyan-400 border-t-transparent"></div>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">Processing Your Order...</h3>
+                                <p class="text-gray-400">Please wait while we validate your payment information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-gray-900 rounded-lg border border-gray-800 p-6 sticky top-24">
+                    <h2 class="font-display text-2xl font-semibold mb-6">Order Summary</h2>
+                    
+                    <!-- Order Items -->
+                    <div id="order-items" class="space-y-4 mb-6">
+                        <!-- Items will be loaded from cart -->
+                    </div>
+
+                    <div class="border-t border-gray-800 pt-4 space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Subtotal</span>
+                            <span id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Shipping</span>
+                            <span class="text-cyan-400" id="checkout-shipping">FREE</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Tax</span>
+                            <span id="checkout-tax">$0.00</span>
+                        </div>
+                        <div class="border-t border-gray-800 pt-3 flex justify-between font-bold text-lg">
+                            <span>Total</span>
+                            <span class="neon-accent" id="checkout-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-gray-800">
+                        <div class="flex items-start gap-3 text-sm text-gray-400">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <p>Your payment information is secure and encrypted. We never store your credit card details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-display text-xl font-bold neon-accent mb-4">HYPERFLOW</h3>
+                    <p class="text-gray-400 text-sm">Premium streetwear dropshipping store. Quality products, fast shipping.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a></li>
+                        <li><a href="index.html#products" class="hover:text-cyan-400 transition-colors">Products</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 HYPERFLOW. All rights reserved. Powered by CJ Dropshipping.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Format card number with spaces
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formattedValue;
+        }
+
+        // Format expiry date as MM/YY
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            input.value = value;
+        }
+
+        // Validation helper functions
+        function showError(fieldId, errorId, message) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.add('error-border');
+            field.classList.remove('border-gray-700');
+            error.textContent = message;
+            error.classList.remove('hidden');
+        }
+
+        function clearError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.remove('error-border');
+            field.classList.add('border-gray-700');
+            error.classList.add('hidden');
+        }
+
+        function validateField(fieldId, errorId, validator, errorMessage) {
+            const field = document.getElementById(fieldId);
+            if (!validator(field.value)) {
+                showError(fieldId, errorId, errorMessage);
+                return false;
+            } else {
+                clearError(fieldId, errorId);
+                return true;
+            }
+        }
+
+        // Clear errors on input
+        document.addEventListener('DOMContentLoaded', function() {
+            const fields = [
+                'first-name', 'last-name', 'email', 'phone', 'address', 
+                'city', 'state', 'zip', 'country', 'card-number', 
+                'card-expiry', 'card-cvv', 'card-name'
+            ];
+            
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.addEventListener('input', function() {
+                        const errorId = fieldId + '-error';
+                        if (document.getElementById(errorId)) {
+                            clearError(fieldId, errorId);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Mock checkout processing
+        function processMockCheckout() {
+            let isValid = true;
+
+            // Validate all billing fields
+            isValid = validateField('first-name', 'first-name-error', 
+                (v) => v.trim().length > 0, 'First name is required') && isValid;
+            
+            isValid = validateField('last-name', 'last-name-error', 
+                (v) => v.trim().length > 0, 'Last name is required') && isValid;
+            
+            isValid = validateField('email', 'email-error', 
+                (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Please enter a valid email address') && isValid;
+            
+            isValid = validateField('phone', 'phone-error', 
+                (v) => v.trim().length > 0, 'Phone number is required') && isValid;
+            
+            isValid = validateField('address', 'address-error', 
+                (v) => v.trim().length > 0, 'Street address is required') && isValid;
+            
+            isValid = validateField('city', 'city-error', 
+                (v) => v.trim().length > 0, 'City is required') && isValid;
+            
+            isValid = validateField('state', 'state-error', 
+                (v) => v.trim().length > 0, 'State/Province is required') && isValid;
+            
+            isValid = validateField('zip', 'zip-error', 
+                (v) => v.trim().length > 0, 'ZIP/Postal code is required') && isValid;
+            
+            isValid = validateField('country', 'country-error', 
+                (v) => v.trim().length > 0, 'Country is required') && isValid;
+
+            // Validate payment fields
+            const cardNumber = document.getElementById('card-number').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardCvv = document.getElementById('card-cvv').value;
+            const cardName = document.getElementById('card-name').value;
+
+            isValid = validateField('card-number', 'card-number-error', 
+                (v) => {
+                    const clean = v.replace(/\s/g, '');
+                    return clean.length >= 13 && clean.length <= 19;
+                }, 'Please enter a valid card number (13-19 digits)') && isValid;
+
+            isValid = validateField('card-expiry', 'card-expiry-error', 
+                (v) => /^\d{2}\/\d{2}$/.test(v), 'Please enter a valid expiry date (MM/YY)') && isValid;
+
+            isValid = validateField('card-cvv', 'card-cvv-error', 
+                (v) => v.length >= 3 && v.length <= 4, 'Please enter a valid CVV (3-4 digits)') && isValid;
+
+            isValid = validateField('card-name', 'card-name-error', 
+                (v) => v.trim().length > 0, 'Name on card is required') && isValid;
+
+            if (!isValid) {
+                // Scroll to first error
+                const firstError = document.querySelector('.error-border');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+                return;
+            }
+
+            // Show processing overlay
+            document.getElementById('processing-overlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Simulate processing for 2 seconds
+            setTimeout(function() {
+                if (!window.cart || window.cart.cart.length === 0) {
+                    alert('Your cart is empty!');
+                    window.location.href = 'cart.html';
+                    return;
+                }
+
+                const subtotal = window.cart.getTotal();
+                const shippingMethod = document.querySelector('input[name="shipping"]:checked');
+                const shippingCost = shippingMethod && shippingMethod.value === 'express' ? 19.99 : 0;
+                const tax = subtotal * 0.08;
+                const total = subtotal + shippingCost + tax;
+
+                // Store order data in sessionStorage for success page
+                const orderData = {
+                    orderNumber: 'HYPERFLOW-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                    items: window.cart.cart,
+                    productName: window.cart.cart.length === 1 ? window.cart.cart[0].name : `${window.cart.cart.length} items`,
+                    productPrice: '$' + subtotal.toFixed(2),
+                    shipping: shippingCost > 0 ? '$' + shippingCost.toFixed(2) : 'FREE',
+                    tax: '$' + tax.toFixed(2),
+                    total: '$' + total.toFixed(2),
+                    customerName: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+                    email: document.getElementById('email').value,
+                    shippingAddress: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zip: document.getElementById('zip').value,
+                    country: document.getElementById('country').value,
+                    shippingMethod: shippingMethod ? shippingMethod.value : 'standard'
+                };
+                
+                sessionStorage.setItem('orderData', JSON.stringify(orderData));
+                
+                // Clear cart
+                window.cart.clearCart();
+                
+                // Redirect to success page
+                window.location.href = 'success.html';
+            }, 2000);
+        }
+
+        // Shipping method change handler
+        document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Update shipping cost in order summary
+                const shippingCost = this.value === 'express' ? '$19.99' : 'FREE';
+                // Update total calculation here if needed
+            });
+        });
+
+    </script>
+    <!-- Shopping Cart Script -->
+    <script src="cart.js"></script>
+    <script src="cj-integration-demo.js"></script>
+    <script>
+        // Load cart items into checkout
+        function loadCartItems() {
+            if (!window.cart || window.cart.cart.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            const orderItems = document.getElementById('order-items');
+            orderItems.innerHTML = window.cart.cart.map(item => {
+                const price = parseFloat(item.price.replace('$', ''));
+                const itemTotal = (price * item.quantity).toFixed(2);
+                
+                return `
+                    <div class="flex gap-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-sm">${item.name}</h3>
+                            <p class="text-gray-400 text-xs">Size: ${item.size} | Color: ${item.color}</p>
+                            <p class="text-gray-400 text-xs">Quantity: ${item.quantity}</p>
+                            <p class="text-cyan-400 font-semibold mt-1">$${itemTotal}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateCheckoutTotals();
+        }
+
+        function updateCheckoutTotals() {
+            if (!window.cart) return;
+            
+            const subtotal = window.cart.getTotal();
+            const shippingMethod = document.querySelector('input[name="shipping"]:checked');
+            const shippingCost = shippingMethod && shippingMethod.value === 'express' ? 19.99 : 0;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shippingCost + tax;
+
+            document.getElementById('checkout-subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('checkout-shipping').textContent = shippingCost > 0 ? '$' + shippingCost.toFixed(2) : 'FREE';
+            document.getElementById('checkout-tax').textContent = '$' + tax.toFixed(2);
+            document.getElementById('checkout-total').textContent = '$' + total.toFixed(2);
+        }
+
+        // Process order with CJ Dropshipping
+        async function processOrder() {
+            const form = document.getElementById('checkout-form');
+            const formData = new FormData(form);
+            
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+            
+            if (!window.cart || window.cart.cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            const submitButton = document.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Processing...';
+            submitButton.disabled = true;
+            
+            try {
+                // Prepare order data for CJ
+                const orderData = {
+                    items: window.cart.cart.map(item => ({
+                        productId: item.id,
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price,
+                        size: item.size,
+                        color: item.color
+                    })),
+                    shippingAddress: {
+                        firstName: formData.get('first-name'),
+                        lastName: formData.get('last-name'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        address: formData.get('address'),
+                        city: formData.get('city'),
+                        state: formData.get('state'),
+                        zip: formData.get('zip'),
+                        country: formData.get('country')
+                    },
+                    shippingMethod: document.querySelector('input[name="shipping"]:checked').value,
+                    subtotal: window.cart.getTotal(),
+                    shippingCost: document.querySelector('input[name="shipping"]:checked').value === 'express' ? 19.99 : 0,
+                    tax: window.cart.getTotal() * 0.08,
+                    total: parseFloat(document.getElementById('checkout-total').textContent.replace('$', ''))
+                };
+                
+                // Send order to CJ
+                const cjResult = await cj.createOrder(orderData);
+                
+                if (cjResult.success) {
+                    // Clear cart and redirect to success page
+                    window.cart.clearCart();
+                    
+                    // Store order details for success page
+                    localStorage.setItem('lastOrder', JSON.stringify({
+                        orderId: cjResult.orderId,
+                        ...orderData
+                    }));
+                    
+                    window.location.href = `success.html?order=${cjResult.orderId}`;
+                } else {
+                    throw new Error(cjResult.error || 'Order processing failed');
+                }
+                
+            } catch (error) {
+                console.error('Order processing error:', error);
+                alert(`Order failed: ${error.message}. Please try again.`);
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['first-name', 'last-name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'country'];
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + '-error');
+                
+                if (!field.value.trim()) {
+                    field.classList.add('error-border');
+                    if (errorElement) {
+                        errorElement.textContent = 'This field is required';
+                        errorElement.classList.remove('hidden');
+                    }
+                    isValid = false;
+                } else {
+                    field.classList.remove('error-border');
+                    if (errorElement) {
+                        errorElement.classList.add('hidden');
+                    }
+                }
+            });
+            
+            // Email validation
+            const emailField = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            if (emailField.value && !emailField.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                emailField.classList.add('error-border');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Update totals when shipping method changes
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartItems();
+            
+            document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+                radio.addEventListener('change', updateCheckoutTotals);
+            });
+        });
+    </script>
+</body>
+</html>
+

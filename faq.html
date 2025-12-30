@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .faq-item {
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .category-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .category-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+        
+        .search-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-6 neon-text">Frequently Asked Questions</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                Find answers to common questions about shopping, shipping, returns, and more.
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto">
+                <div class="relative">
+                    <input type="text" 
+                           id="faq-search" 
+                           placeholder="Search for answers..." 
+                           class="search-input w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none text-lg">
+                    <button onclick="searchFAQ()" class="absolute right-2 top-2 px-4 py-2 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Category Filters -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="filterCategory('all')" class="category-badge px-6 py-3 bg-cyan-400 text-black font-semibold rounded-full">
+                    All Categories
+                </button>
+                <button onclick="filterCategory('ordering')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Ordering
+                </button>
+                <button onclick="filterCategory('payment')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Payment
+                </button>
+                <button onclick="filterCategory('shipping')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Shipping
+                </button>
+                <button onclick="filterCategory('returns')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Returns
+                </button>
+                <button onclick="filterCategory('products')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Products
+                </button>
+                <button onclick="filterCategory('account')" class="category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700">
+                    Account
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Content -->
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <div id="faq-container" class="space-y-4">
+                <!-- Ordering Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="ordering">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">How do I place an order?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Placing an order is simple:</p>
+                        <ol class="list-decimal list-inside mt-2 space-y-1">
+                            <li>Browse our products and add items to your cart</li>
+                            <li>Click the cart icon when you're ready to checkout</li>
+                            <li>Enter your shipping information</li>
+                            <li>Choose your payment method</li>
+                            <li>Review your order and complete purchase</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="ordering">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Can I modify or cancel my order?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>You can modify or cancel your order within 2 hours of placing it. After that, the order enters our fulfillment process and cannot be changed. Contact our support team immediately if you need to make changes.</p>
+                    </div>
+                </div>
+                
+                <!-- Payment Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="payment">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">What payment methods do you accept?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>We accept multiple payment methods:</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Credit/Debit Cards (Visa, Mastercard, American Express)</li>
+                            <li>PayPal and Venmo</li>
+                            <li>Apple Pay and Google Pay</li>
+                            <li>Zelle (direct bank transfer)</li>
+                            <li>Cash App</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="payment">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Is my payment information secure?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Yes! We use industry-standard SSL encryption and are PCI compliant. Your payment information is never stored on our servers - it's processed securely through our payment partners.</p>
+                    </div>
+                </div>
+                
+                <!-- Shipping Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="shipping">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">What are your shipping options?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>We offer several shipping options:</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Standard Shipping (5-7 business days) - $9.99</li>
+                            <li>Express Shipping (2-3 business days) - $19.99</li>
+                            <li>Overnight Shipping (1 business day) - $29.99</li>
+                            <li>Free Standard Shipping on orders over $100</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="shipping">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Do you ship internationally?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Yes, we ship to over 50 countries worldwide. International shipping rates and delivery times vary by location. You can check if we ship to your country during checkout.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="shipping">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">How can I track my order?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Once your order ships, you'll receive a tracking number via email. You can track your package on our website using the "Track Order" feature, or directly on the carrier's website.</p>
+                    </div>
+                </div>
+                
+                <!-- Returns Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="returns">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">What is your return policy?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>We offer a 30-day return policy on all unworn items in original packaging. Items must be in the same condition as received, with all tags attached. Return shipping is free for defective items.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="returns">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">How do I initiate a return?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>To initiate a return:</p>
+                        <ol class="list-decimal list-inside mt-2 space-y-1">
+                            <li>Contact our support team with your order number</li>
+                            <li>We'll provide a return shipping label</li>
+                            <li>Package the item securely in original packaging</li>
+                            <li>Drop off at the designated shipping location</li>
+                            <li>Refund will be processed within 5-7 business days</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- Product Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="products">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Are your products authentic?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Absolutely! All our products are 100% authentic. We source directly from authorized dealers, brand distributors, or the brands themselves. We guarantee authenticity or your money back.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="products">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">How do I know my size?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Each product page includes a detailed size chart. We recommend measuring your foot/using your current shoe size as a reference. If you're between sizes, we typically recommend sizing up for sneakers.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="products">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Do you have restocks for sold-out items?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Popular items often get restocked. You can sign up for restock notifications on product pages. Limited edition items may not be restocked once sold out.</p>
+                    </div>
+                </div>
+                
+                <!-- Account Questions -->
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="account">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">Do I need an account to shop?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>No, you can checkout as a guest. However, creating an account allows you to track orders, save addresses, view order history, and get exclusive member benefits.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-gray-900 rounded-lg border border-gray-800" data-category="account">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+                        <span class="font-semibold">How do I reset my password?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        <p>Click "Forgot Password" on the login page, enter your email address, and we'll send you a password reset link. The link expires after 24 hours for security reasons.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="no-results" class="hidden text-center py-12">
+                <p class="text-gray-400 text-lg">No results found. Try different keywords or browse categories.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Still Need Help Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 neon-text">Still Need Help?</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Can't find what you're looking for? Our customer service team is here to help!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="px-8 py-4 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                    Contact Support
+                </a>
+                <button onclick="startLiveChat()" class="px-8 py-4 border border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-black transition-colors rounded-lg">
+                    Start Live Chat
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Scripts -->
+    <script>
+        // Load components
+        async function loadComponents() {
+            try {
+                const headerResponse = await fetch('components/header.html');
+                const headerText = await headerResponse.text();
+                document.getElementById('header-container').innerHTML = headerText;
+                
+                const footerResponse = await fetch('components/footer.html');
+                const footerText = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerText;
+            } catch (error) {
+                console.error('Failed to load components:', error);
+            }
+        }
+        
+        // Toggle FAQ
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('span:last-child');
+            
+            content.classList.toggle('hidden');
+            icon.textContent = content.classList.contains('hidden') ? '+' : '-';
+        }
+        
+        // Filter by category
+        function filterCategory(category) {
+            const items = document.querySelectorAll('.faq-item');
+            const buttons = document.querySelectorAll('.category-badge');
+            
+            // Update button styles
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(category) || 
+                    (category === 'all' && btn.textContent.includes('All'))) {
+                    btn.className = 'category-badge px-6 py-3 bg-cyan-400 text-black font-semibold rounded-full';
+                } else {
+                    btn.className = 'category-badge px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-full hover:bg-gray-700';
+                }
+            });
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update no results message
+            const visibleItems = Array.from(items).filter(item => item.style.display !== 'none');
+            document.getElementById('no-results').classList.toggle('hidden', visibleItems.length > 0);
+        }
+        
+        // Search FAQ
+        function searchFAQ() {
+            const searchTerm = document.getElementById('faq-search').value.toLowerCase();
+            const items = document.querySelectorAll('.faq-item');
+            let hasResults = false;
+            
+            items.forEach(item => {
+                const question = item.querySelector('button span:first-child').textContent.toLowerCase();
+                const answer = item.querySelector('.hidden').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update no results message
+            document.getElementById('no-results').classList.toggle('hidden', hasResults);
+        }
+        
+        // Start live chat (placeholder)
+        function startLiveChat() {
+            showNotification('Live chat feature coming soon! Please contact us via email for now.', 'info');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-cyan-600 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Search on Enter key
+        document.getElementById('faq-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchFAQ();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+</body>
+</html>

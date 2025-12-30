@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: rgba(0, 255, 255, 0.3);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-6 neon-text">About HYPERFLOW</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                We're not just a store – we're a movement. Bringing you the latest in streetwear culture 
+                and sneaker innovation, curated for those who dare to stand out.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Our Story -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6 neon-text">Our Story</h2>
+                    <div class="space-y-4 text-gray-300">
+                        <p>
+                            Founded in 2024, HYPERFLOW emerged from a simple idea: to create a space where 
+                            sneaker enthusiasts and streetwear lovers could find the most coveted pieces without 
+                            the hassle of endless searching.
+                        </p>
+                        <p>
+                            What started as a small operation in a garage has grown into a global community of 
+                            fashion-forward individuals who appreciate quality, authenticity, and the thrill of 
+                            the hunt.
+                        </p>
+                        <p>
+                            We believe that streetwear is more than just clothing – it's a form of self-expression, 
+                            a cultural movement, and a way to connect with like-minded individuals around the world.
+                        </p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=400&fit=crop" 
+                         alt="Our Story" class="rounded-lg neon-border">
+                    <div class="absolute -bottom-4 -right-4 bg-cyan-400 text-black px-6 py-3 rounded-lg font-bold">
+                        Since 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Mission & Values -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Our Mission & Values</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4">Authenticity First</h3>
+                    <p class="text-gray-300">
+                        Every product in our store is 100% authentic. We work directly with brands and 
+                        authorized dealers to ensure you're getting the real deal.
+                    </p>
+                </div>
+                
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-4">Innovation Driven</h3>
+                    <p class="text-gray-300">
+                        We're constantly pushing boundaries, bringing you the latest releases and 
+                        exclusive drops before anyone else.
+                    </p>
+                </div>
+                
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h3 class="text-2xl font-bold mb-4">Community Focused</h3>
+                    <p class="text-gray-300">
+                        We're building more than a store – we're creating a community of passionate 
+                        individuals who share our love for street culture.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Timeline -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Our Journey</h2>
+            
+            <div class="max-w-3xl mx-auto space-y-8">
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-bold mb-2">2024 - The Beginning</h3>
+                    <p class="text-gray-300">
+                        Launched HYPERFLOW with a mission to democratize access to premium streetwear 
+                        and sneakers for enthusiasts worldwide.
+                    </p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-bold mb-2">Q2 2024 - First Milestone</h3>
+                    <p class="text-gray-300">
+                        Served our first 10,000 customers and expanded our product catalog to over 
+                        500+ premium items from top brands.
+                    </p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-bold mb-2">Q3 2024 - Global Expansion</h3>
+                    <p class="text-gray-300">
+                        Launched international shipping and established partnerships with exclusive 
+                        brands and designers.
+                    </p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-bold mb-2">Q4 2024 - Innovation</h3>
+                    <p class="text-gray-300">
+                        Introduced our AI-powered recommendation system and launched the HYPERFLOW 
+                        mobile app for seamless shopping experience.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Meet The Team</h2>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" 
+                         alt="Team Member" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-cyan-400">
+                    <h3 class="text-xl font-bold mb-2">Alex Chen</h3>
+                    <p class="text-cyan-400 mb-2">CEO & Founder</p>
+                    <p class="text-gray-300 text-sm">Sneakerhead with 15+ years in streetwear culture</p>
+                </div>
+                
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b332c1ca?w=200&h=200&fit=crop&crop=face" 
+                         alt="Team Member" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-cyan-400">
+                    <h3 class="text-xl font-bold mb-2">Sarah Johnson</h3>
+                    <p class="text-cyan-400 mb-2">Creative Director</p>
+                    <p class="text-gray-300 text-sm">Fashion designer and trend forecaster</p>
+                </div>
+                
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" 
+                         alt="Team Member" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-cyan-400">
+                    <h3 class="text-xl font-bold mb-2">Mike Rodriguez</h3>
+                    <p class="text-cyan-400 mb-2">Head of Operations</p>
+                    <p class="text-gray-300 text-sm">Supply chain and logistics expert</p>
+                </div>
+                
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face" 
+                         alt="Team Member" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-cyan-400">
+                    <h3 class="text-xl font-bold mb-2">Emily Davis</h3>
+                    <p class="text-cyan-400 mb-2">Community Manager</p>
+                    <p class="text-gray-300 text-sm">Building our global streetwear community</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold neon-text mb-2">50K+</div>
+                    <div class="text-gray-300">Happy Customers</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold neon-text mb-2">1000+</div>
+                    <div class="text-gray-300">Products</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold neon-text mb-2">50+</div>
+                    <div class="text-gray-300">Countries</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold neon-text mb-2">4.9★</div>
+                    <div class="text-gray-300">Average Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6 neon-text">Join The Movement</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Be part of the community that's shaping the future of streetwear culture.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="shop.html" class="px-8 py-4 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                    Shop Now
+                </a>
+                <a href="contact.html" class="px-8 py-4 border border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-black transition-colors rounded-lg">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Scripts -->
+    <script>
+        // Load components
+        async function loadComponents() {
+            try {
+                const headerResponse = await fetch('components/header.html');
+                const headerText = await headerResponse.text();
+                document.getElementById('header-container').innerHTML = headerText;
+                
+                const footerResponse = await fetch('components/footer.html');
+                const footerText = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerText;
+            } catch (error) {
+                console.error('Failed to load components:', error);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+</body>
+</html>

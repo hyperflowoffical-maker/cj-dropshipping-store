@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CJ Dropshipping Integration Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .btn-primary {
+            background: var(--neon-cyan);
+            color: black;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #00cccc;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--neon-cyan);
+            color: black;
+        }
+        
+        .card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .loading-spinner {
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-top: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold neon-text">CJ Dropshipping Demo</h1>
+                <div class="flex items-center space-x-4">
+                    <span id="mode-indicator" class="px-3 py-1 rounded-full text-sm font-semibold bg-yellow-600 text-black">
+                        Demo Mode
+                    </span>
+                    <span id="api-status" class="px-3 py-1 rounded-full text-sm font-semibold bg-gray-600">
+                        Checking...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Control Panel -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Control Panel</h2>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <button onclick="cj.enableLiveMode()" class="btn-primary px-4 py-2 rounded-lg">
+                        🚀 Enable Live Mode
+                    </button>
+                    <button onclick="cj.enableDemoMode()" class="btn-secondary px-4 py-2 rounded-lg">
+                        🎭 Enable Demo Mode
+                    </button>
+                    <button onclick="cj.toggleMode()" class="btn-secondary px-4 py-2 rounded-lg">
+                        🔄 Toggle Mode
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <button onclick="checkApiStatus()" class="btn-secondary px-4 py-2 rounded-lg">
+                        🔍 Check API Status
+                    </button>
+                    <button onclick="clearCache()" class="btn-secondary px-4 py-2 rounded-lg">
+                        🗑️ Clear Cache
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Search -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Product Search</h2>
+                
+                <div class="flex gap-4 mb-6">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search for products..." 
+                        class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400"
+                    >
+                    <input 
+                        type="number" 
+                        id="count-input" 
+                        placeholder="Count" 
+                        value="10" 
+                        min="1" 
+                        max="50"
+                        class="w-24 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400"
+                    >
+                    <button onclick="searchProducts()" class="btn-primary px-6 py-2 rounded-lg">
+                        🔍 Search
+                    </button>
+                </div>
+                
+                <div id="search-results" class="grid md:grid-cols-3 gap-4">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Details -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Product Details</h2>
+                
+                <div class="flex gap-4 mb-6">
+                    <input 
+                        type="text" 
+                        id="product-id-input" 
+                        placeholder="Product ID" 
+                        class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400"
+                    >
+                    <button onclick="getProduct()" class="btn-primary px-6 py-2 rounded-lg">
+                        📦 Get Product
+                    </button>
+                </div>
+                
+                <div id="product-details" class="hidden">
+                    <!-- Product details will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Creation -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Create Order</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-semibold mb-4">Customer Information</h3>
+                        <div class="space-y-3">
+                            <input type="text" id="customer-name" placeholder="Full Name" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <input type="email" id="customer-email" placeholder="Email" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <input type="tel" id="customer-phone" placeholder="Phone" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <input type="text" id="customer-address" placeholder="Address" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <div class="grid grid-cols-3 gap-2">
+                                <input type="text" id="customer-city" placeholder="City" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                                <input type="text" id="customer-state" placeholder="State" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                                <input type="text" id="customer-zip" placeholder="ZIP" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">Order Items</h3>
+                        <div class="space-y-3">
+                            <input type="text" id="order-product-id" placeholder="Product ID" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <input type="number" id="order-quantity" placeholder="Quantity" value="1" min="1" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                            <input type="number" id="order-total" placeholder="Total" step="0.01" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-cyan-400">
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="createOrder()" class="btn-primary px-6 py-3 rounded-lg">
+                    🛒 Create Order
+                </button>
+                
+                <div id="order-result" class="mt-4 hidden">
+                    <!-- Order result will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Status -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Order Status</h2>
+                
+                <div class="flex gap-4 mb-6">
+                    <input 
+                        type="text" 
+                        id="order-status-id" 
+                        placeholder="Order ID" 
+                        class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400"
+                    >
+                    <button onclick="checkOrderStatus()" class="btn-primary px-6 py-2 rounded-lg">
+                        📋 Check Status
+                    </button>
+                </div>
+                
+                <div id="order-status-result" class="hidden">
+                    <!-- Order status will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Order History -->
+        <section class="mb-8">
+            <div class="card border border-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 neon-text">Order History</h2>
+                
+                <button onclick="loadOrderHistory()" class="btn-secondary px-4 py-2 rounded-lg mb-4">
+                    📜 Load Order History
+                </button>
+                
+                <div id="order-history" class="space-y-4">
+                    <!-- Order history will be populated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Scripts -->
+    <script src="demo-products.js"></script>
+    <script src="cj-integration.js"></script>
+    <script>
+        // Initialize
+        let currentMode = 'demo';
+        
+        // Update UI on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateModeIndicator();
+            checkApiStatus();
+        });
+
+        // Update mode indicator
+        function updateModeIndicator() {
+            const indicator = document.getElementById('mode-indicator');
+            const isDemo = cj.isDemoMode();
+            
+            if (isDemo) {
+                indicator.textContent = 'Demo Mode';
+                indicator.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-yellow-600 text-black';
+            } else {
+                indicator.textContent = 'Live Mode';
+                indicator.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-green-600 text-white';
+            }
+            
+            currentMode = isDemo ? 'demo' : 'live';
+        }
+
+        // Check API status
+        async function checkApiStatus() {
+            const statusElement = document.getElementById('api-status');
+            statusElement.textContent = 'Checking...';
+            statusElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-yellow-600 text-black';
+            
+            try {
+                const status = await cj.checkApiStatus();
+                
+                if (status.success) {
+                    statusElement.textContent = 'API Online';
+                    statusElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-green-600 text-white';
+                    showNotification('✅ CJ API is online and working', 'success');
+                } else {
+                    statusElement.textContent = 'API Offline';
+                    statusElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-red-600 text-white';
+                    showNotification(`❌ CJ API is offline: ${status.error}`, 'error');
+                }
+            } catch (error) {
+                statusElement.textContent = 'API Error';
+                statusElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-red-600 text-white';
+                showNotification(`❌ Failed to check API status: ${error.message}`, 'error');
+            }
+        }
+
+        // Search products
+        async function searchProducts() {
+            const keyword = document.getElementById('search-input').value || 'sneakers';
+            const count = parseInt(document.getElementById('count-input').value) || 10;
+            const resultsContainer = document.getElementById('search-results');
+            
+            resultsContainer.innerHTML = '<div class="col-span-3 text-center"><div class="loading-spinner mx-auto"></div></div>';
+            
+            try {
+                const products = await cj.searchProducts(keyword, count);
+                displaySearchResults(products);
+                showNotification(`✅ Found ${products.length} products for "${keyword}"`, 'success');
+            } catch (error) {
+                resultsContainer.innerHTML = '<div class="col-span-3 text-center text-red-400">Failed to search products</div>';
+                showNotification(`❌ Search failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Display search results
+        function displaySearchResults(products) {
+            const resultsContainer = document.getElementById('search-results');
+            
+            if (products.length === 0) {
+                resultsContainer.innerHTML = '<div class="col-span-3 text-center text-gray-400">No products found</div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = products.map(product => `
+                <div class="card border border-gray-700 rounded-lg p-4 cursor-pointer" onclick="selectProduct('${product.id}')">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded mb-3">
+                    <h3 class="font-semibold mb-2">${product.name}</h3>
+                    <p class="text-cyan-400 font-bold mb-2">${product.price}</p>
+                    ${product.originalPrice ? `<p class="text-gray-400 line-through text-sm">${product.originalPrice}</p>` : ''}
+                    <p class="text-sm text-gray-400">Stock: ${product.stock}</p>
+                </div>
+            `).join('');
+        }
+
+        // Select product
+        function selectProduct(productId) {
+            document.getElementById('product-id-input').value = productId;
+            document.getElementById('order-product-id').value = productId;
+            getProduct();
+        }
+
+        // Get product details
+        async function getProduct() {
+            const productId = document.getElementById('product-id-input').value;
+            
+            if (!productId) {
+                showNotification('⚠️ Please enter a product ID', 'warning');
+                return;
+            }
+            
+            const detailsContainer = document.getElementById('product-details');
+            detailsContainer.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            detailsContainer.classList.remove('hidden');
+            
+            try {
+                const product = await cj.getProduct(productId);
+                displayProductDetails(product);
+                showNotification(`✅ Loaded product: ${product.name}`, 'success');
+            } catch (error) {
+                detailsContainer.innerHTML = '<div class="text-red-400">Failed to load product</div>';
+                showNotification(`❌ Failed to load product: ${error.message}`, 'error');
+            }
+        }
+
+        // Display product details
+        function displayProductDetails(product) {
+            const detailsContainer = document.getElementById('product-details');
+            
+            detailsContainer.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <img src="${product.image}" alt="${product.name}" class="w-full rounded-lg">
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-3">${product.name}</h3>
+                        <p class="text-cyan-400 font-bold text-2xl mb-3">${product.price}</p>
+                        ${product.originalPrice ? `<p class="text-gray-400 line-through">${product.originalPrice}</p>` : ''}
+                        <p class="text-gray-300 mb-3">${product.description}</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-400">Category:</span>
+                                <span class="text-white">${product.category}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Stock:</span>
+                                <span class="text-white">${product.stock}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Supplier:</span>
+                                <span class="text-white">${product.supplier}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">ID:</span>
+                                <span class="text-white">${product.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create order
+        async function createOrder() {
+            const orderData = {
+                products: [{
+                    id: document.getElementById('order-product-id').value,
+                    quantity: parseInt(document.getElementById('order-quantity').value)
+                }],
+                customer: {
+                    name: document.getElementById('customer-name').value,
+                    email: document.getElementById('customer-email').value,
+                    phone: document.getElementById('customer-phone').value,
+                    address: document.getElementById('customer-address').value,
+                    city: document.getElementById('customer-city').value,
+                    state: document.getElementById('customer-state').value,
+                    zip: document.getElementById('customer-zip').value,
+                    country: 'US'
+                },
+                total: parseFloat(document.getElementById('order-total').value),
+                notes: 'Demo order from CJ integration test'
+            };
+            
+            const resultContainer = document.getElementById('order-result');
+            resultContainer.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            resultContainer.classList.remove('hidden');
+            
+            try {
+                const result = await cj.createOrder(orderData);
+                displayOrderResult(result);
+                
+                if (result.success) {
+                    showNotification(`✅ Order created: ${result.orderId}`, 'success');
+                } else {
+                    showNotification(`❌ Order creation failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultContainer.innerHTML = '<div class="text-red-400">Failed to create order</div>';
+                showNotification(`❌ Order creation failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Display order result
+        function displayOrderResult(result) {
+            const resultContainer = document.getElementById('order-result');
+            
+            resultContainer.innerHTML = `
+                <div class="p-4 rounded-lg ${result.success ? 'bg-green-900 border-green-700' : 'bg-red-900 border-red-700'} border">
+                    <h4 class="font-bold mb-2">Order Result</h4>
+                    <p class="mb-2"><strong>Success:</strong> ${result.success}</p>
+                    <p class="mb-2"><strong>Order ID:</strong> ${result.orderId}</p>
+                    <p class="mb-2"><strong>Message:</strong> ${result.message}</p>
+                    ${result.data ? `<pre class="text-xs bg-gray-800 p-2 rounded overflow-auto">${JSON.stringify(result.data, null, 2)}</pre>` : ''}
+                    ${result.error ? `<p class="text-red-400"><strong>Error:</strong> ${result.error}</p>` : ''}
+                    ${result.demo ? '<p class="text-yellow-400"><strong>⚠️ This is a demo order</strong></p>' : ''}
+                </div>
+            `;
+        }
+
+        // Check order status
+        async function checkOrderStatus() {
+            const orderId = document.getElementById('order-status-id').value;
+            
+            if (!orderId) {
+                showNotification('⚠️ Please enter an order ID', 'warning');
+                return;
+            }
+            
+            const resultContainer = document.getElementById('order-status-result');
+            resultContainer.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            resultContainer.classList.remove('hidden');
+            
+            try {
+                const status = await cj.getOrderStatus(orderId);
+                displayOrderStatus(status);
+                showNotification(`✅ Retrieved order status for ${orderId}`, 'success');
+            } catch (error) {
+                resultContainer.innerHTML = '<div class="text-red-400">Failed to get order status</div>';
+                showNotification(`❌ Failed to get order status: ${error.message}`, 'error');
+            }
+        }
+
+        // Display order status
+        function displayOrderStatus(status) {
+            const resultContainer = document.getElementById('order-status-result');
+            
+            resultContainer.innerHTML = `
+                <div class="p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <h4 class="font-bold mb-3">Order Status</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-400">Order ID:</span>
+                            <span class="text-white">${status.orderId}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Status:</span>
+                            <span class="text-white">${status.status}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Tracking:</span>
+                            <span class="text-white">${status.trackingNumber || 'N/A'}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Est. Delivery:</span>
+                            <span class="text-white">${new Date(status.estimatedDelivery).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    ${status.demo ? '<p class="text-yellow-400 mt-3"><strong>⚠️ This is demo status</strong></p>' : ''}
+                </div>
+            `;
+        }
+
+        // Load order history
+        function loadOrderHistory() {
+            const orders = cj.getOrders();
+            const historyContainer = document.getElementById('order-history');
+            
+            if (orders.length === 0) {
+                historyContainer.innerHTML = '<p class="text-gray-400">No orders found</p>';
+                return;
+            }
+            
+            historyContainer.innerHTML = orders.map(order => `
+                <div class="p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold">${order.orderId}</h4>
+                            <p class="text-sm text-gray-400">${new Date(order.createdAt).toLocaleDateString()}</p>
+                            <p class="text-sm">${order.customer?.name || 'Customer'}</p>
+                            <p class="text-cyan-400 font-bold">$${order.total || '0.00'}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="px-2 py-1 rounded text-xs ${order.demo ? 'bg-yellow-600 text-black' : 'bg-green-600 text-white'}">
+                                ${order.demo ? 'Demo' : 'Live'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            showNotification(`📜 Loaded ${orders.length} orders from history`, 'success');
+        }
+
+        // Clear cache
+        function clearCache() {
+            cj.clearCache();
+            showNotification('🗑️ Cache cleared', 'success');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            
+            notification.className = `notification p-4 rounded-lg shadow-lg mb-4 ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                type === 'warning' ? 'bg-yellow-600 text-black' : 
+                'bg-cyan-600 text-white'
+            }`;
+            
+            notification.textContent = message;
+            container.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Update mode indicator when mode changes
+        setInterval(updateModeIndicator, 5000);
+    </script>
+</body>
+</html>

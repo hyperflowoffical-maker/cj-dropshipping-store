@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .contact-card {
+            transition: all 0.3s ease;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+            color: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-6 neon-text">Get In Touch</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Have questions? Need help? Want to collaborate? We're here for you. 
+                Reach out to our team and we'll get back to you ASAP.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Contact Information -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="contact-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">📧</div>
+                    <h3 class="text-2xl font-bold mb-4">Email Us</h3>
+                    <p class="text-gray-300 mb-4">Get in touch via email</p>
+                    <a href="mailto:support@hyperflow.com" class="text-cyan-400 hover:text-cyan-300">support@hyperflow.com</a>
+                </div>
+                
+                <div class="contact-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">💬</div>
+                    <h3 class="text-2xl font-bold mb-4">Live Chat</h3>
+                    <p class="text-gray-300 mb-4">Chat with our team</p>
+                    <button onclick="startLiveChat()" class="text-cyan-400 hover:text-cyan-300">Start Chat</button>
+                </div>
+                
+                <div class="contact-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-2xl font-bold mb-4">Social Media</h3>
+                    <p class="text-gray-300 mb-4">Follow us on social</p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="social-icon text-gray-400 hover:text-cyan-400">IG</a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-cyan-400">TW</a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-cyan-400">TK</a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-cyan-400">YT</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                    <h2 class="text-3xl font-bold mb-8 text-center neon-text">Send Us A Message</h2>
+                    
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">First Name *</label>
+                                <input type="text" required class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Last Name *</label>
+                                <input type="text" required class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none" placeholder="Doe">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
+                            <input type="email" required class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none" placeholder="john@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                            <input type="tel" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none" placeholder="+1 (555) 123-4567">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Subject *</label>
+                            <select required class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none">
+                                <option value="">Select a topic</option>
+                                <option value="order">Order Status</option>
+                                <option value="product">Product Question</option>
+                                <option value="shipping">Shipping Issue</option>
+                                <option value="return">Return/Exchange</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="partnership">Partnership Inquiry</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Message *</label>
+                            <textarea required rows="6" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none" placeholder="Tell us more about your inquiry..."></textarea>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" required class="mr-3">
+                            <label class="text-sm text-gray-300">
+                                I agree to the <a href="privacy.html" class="text-cyan-400 hover:text-cyan-300">Privacy Policy</a> 
+                                and consent to being contacted regarding my inquiry.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-4 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-lg border border-gray-700">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">How long does shipping take?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        Standard shipping takes 5-7 business days, express shipping takes 2-3 business days, 
+                        and overnight shipping is available for most locations.
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg border border-gray-700">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">What's your return policy?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        We offer 30-day returns on all unworn items in original packaging. Simply contact 
+                        our support team to initiate a return.
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg border border-gray-700">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">Are your products authentic?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        Yes! All our products are 100% authentic and sourced directly from authorized 
+                        dealers or the brands themselves.
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg border border-gray-700">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">Do you offer international shipping?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        Yes, we ship to over 50 countries worldwide. International shipping rates and 
+                        delivery times vary by location.
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg border border-gray-700">
+                    <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">How can I track my order?</span>
+                        <span class="text-cyan-400">+</span>
+                    </button>
+                    <div class="hidden px-6 py-4 text-gray-300 border-t border-gray-700">
+                        Once your order ships, you'll receive a tracking number via email. You can use 
+                        this to track your package on our website or the carrier's site.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Office Locations -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Our Locations</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                    <h3 class="text-2xl font-bold mb-4">Headquarters</h3>
+                    <div class="space-y-2 text-gray-300">
+                        <p>123 Fashion Avenue</p>
+                        <p>New York, NY 10001</p>
+                        <p>United States</p>
+                        <p class="pt-4">Mon-Fri: 9AM-6PM EST</p>
+                        <p>Sat-Sun: 10AM-4PM EST</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                    <h3 class="text-2xl font-bold mb-4">West Coast Office</h3>
+                    <div class="space-y-2 text-gray-300">
+                        <p>456 Sunset Boulevard</p>
+                        <p>Los Angeles, CA 90028</p>
+                        <p>United States</p>
+                        <p class="pt-4">Mon-Fri: 9AM-6PM PST</p>
+                        <p>Sat-Sun: 10AM-4PM PST</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Scripts -->
+    <script>
+        // Load components
+        async function loadComponents() {
+            try {
+                const headerResponse = await fetch('components/header.html');
+                const headerText = await headerResponse.text();
+                document.getElementById('header-container').innerHTML = headerText;
+                
+                const footerResponse = await fetch('components/footer.html');
+                const footerText = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerText;
+            } catch (error) {
+                console.error('Failed to load components:', error);
+            }
+        }
+        
+        // Toggle FAQ
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('span:last-child');
+            
+            content.classList.toggle('hidden');
+            icon.textContent = content.classList.contains('hidden') ? '+' : '-';
+        }
+        
+        // Start live chat (placeholder)
+        function startLiveChat() {
+            showNotification('Live chat feature coming soon! Please email us for now.', 'info');
+        }
+        
+        // Handle form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showNotification('Message sent successfully! We\'ll get back to you within 24 hours.', 'success');
+                e.target.reset();
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 2000);
+        });
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-cyan-600 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+</body>
+</html>

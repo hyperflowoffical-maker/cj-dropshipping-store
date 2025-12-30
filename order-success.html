@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .success-animation {
+            animation: successPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .timeline-step {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: rgba(0, 255, 255, 0.3);
+        }
+        
+        .timeline-step:last-child::after {
+            display: none;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--neon-cyan);
+            position: absolute;
+            animation: confettiFall 3s linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Success Hero -->
+    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="success-animation inline-block mb-6">
+                <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <h1 class="text-5xl font-bold mb-6 neon-text">Order Successful!</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                Thank you for your order! We've received your purchase and are getting it ready for shipment.
+            </p>
+            
+            <!-- Order Number -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 max-w-md mx-auto">
+                <p class="text-gray-400 mb-2">Order Number</p>
+                <p class="text-2xl font-bold neon-text" id="order-number">HYPER123456789</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Order Details -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Order Summary -->
+                <div class="lg:col-span-2">
+                    <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                        <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                        
+                        <div id="order-items" class="space-y-4 mb-8">
+                            <!-- Items will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="border-t border-gray-700 pt-6">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-400">Order Date</p>
+                                    <p class="font-semibold" id="order-date">December 30, 2024</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Payment Method</p>
+                                    <p class="font-semibold" id="payment-method">Credit Card</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Shipping Method</p>
+                                    <p class="font-semibold" id="shipping-method">Express Shipping</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Estimated Delivery</p>
+                                    <p class="font-semibold" id="delivery-date">January 2, 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Timeline -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                        <h2 class="text-2xl font-bold mb-6">Order Status</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="timeline-step">
+                                <h3 class="font-semibold mb-1">Order Placed</h3>
+                                <p class="text-sm text-gray-400">Just now</p>
+                            </div>
+                            
+                            <div class="timeline-step">
+                                <h3 class="font-semibold mb-1">Processing</h3>
+                                <p class="text-sm text-gray-400">Within 24 hours</p>
+                            </div>
+                            
+                            <div class="timeline-step">
+                                <h3 class="font-semibold mb-1">Shipped</h3>
+                                <p class="text-sm text-gray-400">1-2 business days</p>
+                            </div>
+                            
+                            <div class="timeline-step">
+                                <h3 class="font-semibold mb-1">Delivered</h3>
+                                <p class="text-sm text-gray-400">2-3 business days</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <button onclick="trackOrder()" class="w-full py-3 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                                Track Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- What's Next -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">What's Next?</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">📧</div>
+                    <h3 class="text-xl font-bold mb-4">Order Confirmation</h3>
+                    <p class="text-gray-300">
+                        We've sent a detailed confirmation email with your order details and tracking information.
+                    </p>
+                </div>
+                
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">📦</div>
+                    <h3 class="text-xl font-bold mb-4">Order Processing</h3>
+                    <p class="text-gray-300">
+                        Our team is carefully preparing your order. You'll receive another email when it ships.
+                    </p>
+                </div>
+                
+                <div class="feature-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🚚</div>
+                    <h3 class="text-xl font-bold mb-4">Track Your Package</h3>
+                    <p class="text-gray-300">
+                        Once shipped, you can track your package in real-time until it arrives at your door.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Customer Support -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6 neon-text">Need Help?</h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    Our customer support team is here to help with any questions about your order.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                        <div class="text-3xl mb-4">📞</div>
+                        <h3 class="font-bold mb-2">Call Us</h3>
+                        <p class="text-cyan-400">1-800-HYPERFLOW</p>
+                        <p class="text-sm text-gray-400">Mon-Fri 9AM-6PM EST</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                        <div class="text-3xl mb-4">💬</div>
+                        <h3 class="font-bold mb-2">Live Chat</h3>
+                        <button onclick="startLiveChat()" class="text-cyan-400 hover:text-cyan-300">Start Chat</button>
+                        <p class="text-sm text-gray-400">Available 24/7</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                        <div class="text-3xl mb-4">📧</div>
+                        <h3 class="font-bold mb-2">Email Support</h3>
+                        <a href="mailto:support@hyperflow.com" class="text-cyan-400 hover:text-cyan-300">support@hyperflow.com</a>
+                        <p class="text-sm text-gray-400">Response within 24h</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recommendations -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">You Might Also Like</h2>
+            
+            <div id="recommendations" class="grid md:grid-cols-4 gap-6">
+                <!-- Recommendations will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 neon-text">Continue Shopping</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Discover more amazing products and complete your streetwear collection.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="shop.html" class="px-8 py-4 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                    Shop Now
+                </a>
+                <a href="index.html" class="px-8 py-4 border border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-black transition-colors rounded-lg">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Scripts -->
+    <script src="cart.js"></script>
+    <script src="realistic-products.js"></script>
+    <script src="cj-integration-demo.js"></script>
+    <script>
+        // Get order ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id') || 'HYPER' + Date.now();
+        
+        // Load components
+        async function loadComponents() {
+            try {
+                const headerResponse = await fetch('components/header.html');
+                const headerText = await headerResponse.text();
+                document.getElementById('header-container').innerHTML = headerText;
+                
+                const footerResponse = await fetch('components/footer.html');
+                const footerText = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerText;
+            } catch (error) {
+                console.error('Failed to load components:', error);
+            }
+        }
+        
+        // Load order details
+        function loadOrderDetails() {
+            // Update order number
+            document.getElementById('order-number').textContent = orderId;
+            
+            // Get order from localStorage
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                // Update order items
+                const itemsContainer = document.getElementById('order-items');
+                itemsContainer.innerHTML = order.items.map(item => `
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded">
+                        <div class="flex-1">
+                            <h4 class="font-semibold">${item.name}</h4>
+                            <p class="text-sm text-gray-400">Qty: ${item.quantity} × ${item.price}</p>
+                        </div>
+                        <div class="font-semibold">${item.price}</div>
+                    </div>
+                `).join('');
+                
+                // Update order details
+                document.getElementById('payment-method').textContent = order.paymentMethod || 'Credit Card';
+                document.getElementById('order-date').textContent = new Date(order.createdAt).toLocaleDateString();
+                
+                // Calculate delivery date (3 days from now)
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + 3);
+                document.getElementById('delivery-date').textContent = deliveryDate.toLocaleDateString();
+            } else {
+                // Show demo order if no real order found
+                showDemoOrder();
+            }
+        }
+        
+        // Show demo order
+        function showDemoOrder() {
+            const itemsContainer = document.getElementById('order-items');
+            itemsContainer.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop" alt="Product" class="w-16 h-16 rounded">
+                    <div class="flex-1">
+                        <h4 class="font-semibold">Air Jordan 1 Retro High OG</h4>
+                        <p class="text-sm text-gray-400">Qty: 1 × $169.99</p>
+                    </div>
+                    <div class="font-semibold">$169.99</div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop" alt="Product" class="w-16 h-16 rounded">
+                    <div class="flex-1">
+                        <h4 class="font-semibold">Supreme Box Logo Hoodie</h4>
+                        <p class="text-sm text-gray-400">Qty: 1 × $198.00</p>
+                    </div>
+                    <div class="font-semibold">$198.00</div>
+                </div>
+            `;
+            
+            document.getElementById('order-date').textContent = new Date().toLocaleDateString();
+            document.getElementById('delivery-date').textContent = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString();
+        }
+        
+        // Load recommendations
+        async function loadRecommendations() {
+            try {
+                const cj = new CJDropshipping();
+                const products = await cj.searchProducts('sneakers', 4);
+                
+                const recommendationsContainer = document.getElementById('recommendations');
+                recommendationsContainer.innerHTML = products.map(product => `
+                    <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-cyan-400 transition-colors">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2 truncate">${product.name}</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-cyan-400 font-bold">${product.price}</span>
+                                <a href="product.html?id=${product.id}" class="text-cyan-400 hover:text-cyan-300 text-sm">View →</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load recommendations:', error);
+            }
+        }
+        
+        // Track order
+        function trackOrder() {
+            showNotification('Tracking feature coming soon! Check your email for tracking information.', 'info');
+        }
+        
+        // Start live chat
+        function startLiveChat() {
+            showNotification('Live chat feature coming soon! Please call or email us for now.', 'info');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-cyan-600 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = ['#00ffff', '#ff00ff', '#ff1493', '#00ff00', '#ffff00'][Math.floor(Math.random() * 5)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(confetti);
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadComponents();
+            loadOrderDetails();
+            await loadRecommendations();
+            
+            // Create celebration effect
+            setTimeout(createConfetti, 500);
+        });
+    </script>
+</body>
+</html>

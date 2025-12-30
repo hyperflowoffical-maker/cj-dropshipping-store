@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy - HYPERFLOW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Neon Cyberpunk Styles */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-purple: #ff00ff;
+            --neon-pink: #ff1493;
+        }
+        
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .policy-section {
+            transition: all 0.3s ease;
+        }
+        
+        .policy-section:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .shipping-card {
+            transition: all 0.3s ease;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .shipping-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-6 neon-text">Shipping Policy</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Everything you need to know about our shipping methods, delivery times, and policies.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Shipping Options -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Shipping Options</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="shipping-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🐢</div>
+                    <h3 class="text-2xl font-bold mb-4">Standard Shipping</h3>
+                    <div class="text-3xl font-bold text-cyan-400 mb-2">$9.99</div>
+                    <p class="text-gray-300 mb-4">5-7 Business Days</p>
+                    <ul class="text-left text-gray-300 space-y-2">
+                        <li>✓ Tracking included</li>
+                        <li>✓ Insurance up to $100</li>
+                        <li>✓ Free on orders over $100</li>
+                    </ul>
+                </div>
+                
+                <div class="shipping-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-4">Express Shipping</h3>
+                    <div class="text-3xl font-bold text-cyan-400 mb-2">$19.99</div>
+                    <p class="text-gray-300 mb-4">2-3 Business Days</p>
+                    <ul class="text-left text-gray-300 space-y-2">
+                        <li>✓ Priority tracking</li>
+                        <li>✓ Insurance up to $500</li>
+                        <li>✓ Signature required</li>
+                    </ul>
+                </div>
+                
+                <div class="shipping-card border border-gray-800 rounded-lg p-8 text-center">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-2xl font-bold mb-4">Overnight Shipping</h3>
+                    <div class="text-3xl font-bold text-cyan-400 mb-2">$29.99</div>
+                    <p class="text-gray-300 mb-4">1 Business Day</p>
+                    <ul class="text-left text-gray-300 space-y-2">
+                        <li>✓ Real-time tracking</li>
+                        <li>✓ Full insurance coverage</li>
+                        <li>✓ Morning delivery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- International Shipping -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">International Shipping</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">We Ship Worldwide</h3>
+                    <div class="space-y-4 text-gray-300">
+                        <p>
+                            We ship to over 50 countries around the world. International shipping rates 
+                            and delivery times vary based on your location.
+                        </p>
+                        <p>
+                            <strong>International Shipping Rates:</strong><br>
+                            • Canada & Mexico: $19.99 (7-10 days)<br>
+                            • Europe: $29.99 (10-14 days)<br>
+                            • Asia: $39.99 (14-21 days)<br>
+                            • Rest of World: $49.99 (21-28 days)
+                        </p>
+                        <p>
+                            <strong>Important Notes:</strong><br>
+                            • International orders may be subject to customs duties<br>
+                            • Recipient is responsible for any import taxes<br>
+                            • Some items may have shipping restrictions
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+                    <h4 class="text-xl font-bold mb-4">Supported Countries</h4>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-300">
+                        <div>• United States</div>
+                        <div>• Canada</div>
+                        <div>• United Kingdom</div>
+                        <div>• Germany</div>
+                        <div>• France</div>
+                        <div>• Italy</div>
+                        <div>• Spain</div>
+                        <div>• Netherlands</div>
+                        <div>• Australia</div>
+                        <div>• Japan</div>
+                        <div>• South Korea</div>
+                        <div>• China</div>
+                        <div>• Brazil</div>
+                        <div>• Mexico</div>
+                        <div>• Argentina</div>
+                        <div>• And 35+ more!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Processing Times -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Order Processing</h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-900 rounded-lg p-8 border border-gray-800">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">Processing Timeline</h3>
+                            <div class="space-y-3 text-gray-300">
+                                <div class="flex justify-between">
+                                    <span>Order Received</span>
+                                    <span class="text-cyan-400">Immediate</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Order Processing</span>
+                                    <span class="text-cyan-400">1-2 business days</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Quality Check</span>
+                                    <span class="text-cyan-400">Same day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Shipment</span>
+                                    <span class="text-cyan-400">Within 24 hours</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">What Affects Processing Time?</h3>
+                            <ul class="text-gray-300 space-y-2">
+                                <li>• Order volume (high demand periods)</li>
+                                <li>• Product availability</li>
+                                <li>• Payment verification</li>
+                                <li>• Custom orders</li>
+                                <li>• Pre-order items</li>
+                                <li>• Holiday seasons</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tracking & Delivery -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Tracking & Delivery</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="policy-section bg-gray-800 rounded-lg p-6 border border-gray-700">
+                    <h3 class="text-xl font-bold mb-4">📦 Package Tracking</h3>
+                    <p class="text-gray-300">
+                        All orders include tracking. You'll receive an email with your tracking number 
+                        once your order ships. Track your package on our website or directly with the carrier.
+                    </p>
+                </div>
+                
+                <div class="policy-section bg-gray-800 rounded-lg p-6 border border-gray-700">
+                    <h3 class="text-xl font-bold mb-4">🏠 Delivery Instructions</h3>
+                    <p class="text-gray-300">
+                        You can add special delivery instructions during checkout. We'll do our best 
+                        to accommodate requests like "leave at back door" or "buzzer #1234".
+                    </p>
+                </div>
+                
+                <div class="policy-section bg-gray-800 rounded-lg p-6 border border-gray-700">
+                    <h3 class="text-xl font-bold mb-4">📱 Delivery Updates</h3>
+                    <p class="text-gray-300">
+                        Get real-time delivery updates via email or SMS. We'll notify you when your 
+                        package is out for delivery and when it arrives.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Shipping Issues -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center neon-text">Shipping Issues</h2>
+            
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="policy-section bg-gray-900 rounded-lg p-6 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-4">🚫 Lost Packages</h3>
+                    <p class="text-gray-300 mb-4">
+                        If your package appears to be lost, please contact us immediately. We'll work 
+                        with the carrier to locate your package.
+                    </p>
+                    <p class="text-gray-300">
+                        If the package cannot be located after 7 business days, we'll send a 
+                        replacement or issue a full refund.
+                    </p>
+                </div>
+                
+                <div class="policy-section bg-gray-900 rounded-lg p-6 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-4">💔 Damaged Items</h3>
+                    <p class="text-gray-300 mb-4">
+                        If your order arrives damaged, please contact us within 48 hours with photos 
+                        of the damage and packaging.
+                    </p>
+                    <p class="text-gray-300">
+                        We'll arrange for a replacement to be sent immediately at no additional cost.
+                    </p>
+                </div>
+                
+                <div class="policy-section bg-gray-900 rounded-lg p-6 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-4">🔄 Wrong Address</h3>
+                    <p class="text-gray-300 mb-4">
+                        If you provided an incorrect address, contact us immediately. If the package 
+                        hasn't shipped yet, we can update the address.
+                    </p>
+                    <p class="text-gray-300">
+                        If the package has already shipped, you may need to pay for re-shipment costs.
+                    </p>
+                </div>
+                
+                <div class="policy-section bg-gray-900 rounded-lg p-6 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-4">⏰ Delivery Delays</h3>
+                    <p class="text-gray-300 mb-4">
+                        While we strive to meet delivery estimates, occasional delays may occur due 
+                        to weather, holidays, or carrier issues.
+                    </p>
+                    <p class="text-gray-300">
+                        We'll notify you of any significant delays and work to resolve them quickly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 neon-text">Questions About Shipping?</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Our customer service team is here to help with any shipping questions.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="px-8 py-4 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors rounded-lg">
+                    Contact Support
+                </a>
+                <a href="faq.html" class="px-8 py-4 border border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-black transition-colors rounded-lg">
+                    View FAQ
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Scripts -->
+    <script>
+        // Load components
+        async function loadComponents() {
+            try {
+                const headerResponse = await fetch('components/header.html');
+                const headerText = await headerResponse.text();
+                document.getElementById('header-container').innerHTML = headerText;
+                
+                const footerResponse = await fetch('components/footer.html');
+                const footerText = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerText;
+            } catch (error) {
+                console.error('Failed to load components:', error);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+</body>
+</html>

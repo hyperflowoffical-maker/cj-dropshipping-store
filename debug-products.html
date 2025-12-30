@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug CJ Products</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #000; color: #fff; }
+        .debug-btn { padding: 10px 20px; margin: 10px; background: #00ffff; color: #000; border: none; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #333; border-radius: 5px; }
+        .error { background: #ff4444; }
+        .success { background: #44ff44; }
+        .product { border: 1px solid #666; margin: 10px 0; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>CJ Products Debug</h1>
+    <button onclick="testCJ()" class="debug-btn">Test CJ API</button>
+    <button onclick="testDemo()" class="debug-btn">Test Demo Mode</button>
+    <button onclick="testFilter()" class="debug-btn">Test Filter</button>
+    <div id="results"></div>
+
+    <script src="cj-integration-demo.js"></script>
+    <script>
+        async function testCJ() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="result">Testing CJ API...</div>';
+            
+            try {
+                const products = await cj.searchProducts('sneakers', 5);
+                results.innerHTML += `<div class="result success">✅ CJ API returned ${products.length} products</div>`;
+                
+                products.forEach((product, i) => {
+                    results.innerHTML += `
+                        <div class="product">
+                            <strong>Product ${i + 1}:</strong><br>
+                            ID: ${product.id}<br>
+                            Name: ${product.name}<br>
+                            Category: ${product.category}<br>
+                            Price: ${product.price}<br>
+                            Stock: ${product.stock}
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                results.innerHTML += `<div class="result error">❌ CJ API Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testDemo() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="result">Testing Demo Mode...</div>';
+            
+            // Force demo mode by breaking CJ API
+            cj.demoMode = true;
+            
+            const products = await cj.searchProducts('sneakers', 5);
+            results.innerHTML += `<div class="result success">✅ Demo Mode returned ${products.length} products</div>`;
+            
+            products.forEach((product, i) => {
+                results.innerHTML += `
+                    <div class="product">
+                        <strong>Product ${i + 1}:</strong><br>
+                        ID: ${product.id}<br>
+                        Name: ${product.name}<br>
+                        Category: ${product.category}<br>
+                        Price: ${product.price}<br>
+                        Stock: ${product.stock}
+                    </div>
+                `;
+            });
+        }
+
+        async function testFilter() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="result">Testing Filter Logic...</div>';
+            
+            const products = await cj.searchProducts('sneakers', 10);
+            
+            // Test filter logic
+            const allFiltered = products.filter(product => 
+                product.category.toLowerCase().includes('all'.toLowerCase())
+            );
+            
+            const sneakersFiltered = products.filter(product => 
+                product.category.toLowerCase().includes('sneakers'.toLowerCase())
+            );
+            
+            const hoodiesFiltered = products.filter(product => 
+                product.category.toLowerCase().includes('hoodies'.toLowerCase())
+            );
+            
+            results.innerHTML += `
+                <div class="result">
+                    Total Products: ${products.length}<br>
+                    "All" Filter: ${allFiltered.length}<br>
+                    "Sneakers" Filter: ${sneakersFiltered.length}<br>
+                    "Hoodies" Filter: ${hoodiesFiltered.length}
+                </div>
+            `;
+            
+            // Show categories found
+            const categories = [...new Set(products.map(p => p.category))];
+            results.innerHTML += `<div class="result">Categories Found: ${categories.join(', ')}</div>`;
+        }
+    </script>
+</body>
+</html>
