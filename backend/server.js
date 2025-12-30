@@ -210,7 +210,7 @@ app.get('/api/search', async (req, res) => {
 
         // Make CJ API request
         const cjResponse = await makeCJRequest('/product/list', {
-            productNameEn: keyword,
+            productName: keyword,
             pageNum: parseInt(page),
             pageSize: parseInt(count)
         });
