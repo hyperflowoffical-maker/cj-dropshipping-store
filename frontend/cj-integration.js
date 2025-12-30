@@ -7,7 +7,7 @@
 class CJDropshipping {
     constructor(options = {}) {
         this.apiBase = options.apiBase || 'https://cj-dropshipping-store.vercel.app/api';
-        this.demoMode = options.demoMode !== undefined ? options.demoMode : false;
+        this.demoMode = options.demoMode !== undefined ? options.demoMode : true;
         this.autoFallback = options.autoFallback !== undefined ? options.autoFallback : true;
         this.cache = new Map();
         this.cacheDuration = 5 * 60 * 1000; // 5 minutes
@@ -79,7 +79,7 @@ class CJDropshipping {
         // If explicitly in demo mode and no auto-fallback, skip API call
         if (this.demoMode && !this.autoFallback) {
             console.log('🎭 Demo mode enabled - using sample products');
-            return this.getDemoProducts(count);
+            return this.getDemoProducts(count, keyword);
         }
 
         // Check cache first
@@ -111,7 +111,7 @@ class CJDropshipping {
             if (this.autoFallback) {
                 console.log('🎭 Falling back to demo mode');
                 this.demoMode = true;
-                return this.getDemoProducts(count);
+                return this.getDemoProducts(count, keyword);
             } else {
                 throw error;
             }
@@ -355,10 +355,23 @@ class CJDropshipping {
     /**
      * Get demo products
      */
-    getDemoProducts(count = 20) {
+    getDemoProducts(count = 20, keyword = '') {
         // Import realistic products if available
         if (typeof REALISTIC_PRODUCTS !== 'undefined') {
-            return REALISTIC_PRODUCTS.slice(0, Math.min(count, REALISTIC_PRODUCTS.length));
+            let products = REALISTIC_PRODUCTS;
+            
+            // Filter by keyword if provided
+            if (keyword) {
+                const lowerKeyword = keyword.toLowerCase();
+                products = products.filter(product => 
+                    product.name.toLowerCase().includes(lowerKeyword) ||
+                    product.category.toLowerCase().includes(lowerKeyword) ||
+                    product.description.toLowerCase().includes(lowerKeyword)
+                );
+                console.log(`🔍 Filtered ${products.length} products for keyword: "${keyword}"`);
+            }
+            
+            return products.slice(0, Math.min(count, products.length));
         }
         
         // Fallback demo products
